@@ -40,34 +40,6 @@ def detect_pitch(signal, sr):
         return None
     return float(np.median(f0))
 
-# ---------- Diagram ----------
-def plot_note_log_scale(detect_freq=None):
-    m_min, m_max = 36, 96  # C2–C7
-    mids = np.arange(m_min, m_max + 1)
-    freqs = freq_from_midi(mids)
-
-    fig, ax = plt.subplots(figsize=(9, 3))
-    ax.plot(freqs, mids, marker='o', linestyle='-', color='gray', linewidth=0.7, markersize=2)
-
-    tick_ms = [m for m in mids if m % 12 == 0]
-    tick_freqs = freq_from_midi(np.array(tick_ms))
-    tick_labels = [f"C{(m//12)-1}\n{freq_from_midi(m):.0f} Hz" for m in tick_ms]
-
-    ax.set_xscale("log")
-    ax.set_xticks(tick_freqs)
-    ax.set_xticklabels(tick_labels, fontsize=8)
-    ax.set_yticks([])
-    ax.set_xlabel("Frequency (log scale, Hz) → Octaves labeled at C notes")
-    ax.set_title("Log-frequency scale of musical notes (C2–C7)")
-
-    if detect_freq:
-        ax.axvline(detect_freq, color='red', linestyle='--', linewidth=1)
-        ax.text(detect_freq, mids[0] - 1, f"{detect_freq:.1f} Hz", color='red',
-                ha='center', va='top', fontsize=8)
-
-    plt.tight_layout()
-    st.pyplot(fig)
-
 # ---------- Streamlit App ----------
 st.title("🎵 Web Note & Octave Detector")
 
