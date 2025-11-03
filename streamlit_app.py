@@ -40,7 +40,7 @@ def detect_pitch(signal, sr):
     return float(np.median(f0))
 
 # ---------- Streamlit App ----------
-st.title("🎵 Note & Octave Detector (Simplified)")
+st.title("🎵 Note & Octave Detector")
 
 uploaded = st.file_uploader("Upload an audio file (WAV or MP3)", type=["wav", "mp3"])
 
