@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 import librosa
 import io
-import matplotlib.pyplot as plt
 
 A4_FREQ = 440.0
 NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F',
@@ -41,7 +40,7 @@ def detect_pitch(signal, sr):
     return float(np.median(f0))
 
 # ---------- Streamlit App ----------
-st.title("🎵 Web Note & Octave Detector")
+st.title("🎵 Note & Octave Detector (Simplified)")
 
 uploaded = st.file_uploader("Upload an audio file (WAV or MP3)", type=["wav", "mp3"])
 
@@ -54,10 +53,10 @@ if uploaded:
         cents = 1200 * np.log2(detected / target_freq)
         st.success(f"Detected: {note} ({octave_name} octave)")
         st.info(f"Frequency: {detected:.2f} Hz  |  Deviation: {cents:+.1f} cents")
-        plot_note_log_scale(detect_freq=detected)
     else:
         st.warning("No pitch detected.")
-
+else:
+    st.write("Upload an audio file to begin analysis.")
 
 # ---------- Explanations ----------
 st.header("📘 Formulas (short)")
@@ -71,14 +70,22 @@ with st.expander("Show formulas"):
         "- Deviation (cents): `1200 * log2(f / f_target)`."
     )
 
+
 st.header("🔁 Cycle of Reasoning")
 with st.expander("Show reasoning flow"):
     st.markdown("""
-    1. Upload an audio sample.  
-    2. Extract waveform data and compute the fundamental frequency using YIN.  
-    3. Convert frequency to a logarithmic MIDI scale centered on A4 = 440 Hz.  
-    4. Round to nearest semitone to get a chromatic note and determine octave.  
-    5. Calculate ideal equal-tempered frequency for that note.  
-    6. Compute deviation (in cents) between actual and ideal.  
-    7. Present results with a logarithmic frequency chart marking your detected tone.
+    1. Upload an audio file.  
+    2. Extract waveform data and estimate the fundamental frequency using YIN.  
+    3. Convert this frequency into a logarithmic MIDI scale centered on A4 = 440 Hz.  
+    4. Round to the nearest semitone to determine the chromatic note and octave.  
+    5. Compute the ideal equal-tempered frequency of that note.  
+    6. Measure the deviation in cents between detected and target frequency.  
+    7. Classify octave as lower, middle, or higher and display the result.
     """)
+
+
+
+
+
+
+
