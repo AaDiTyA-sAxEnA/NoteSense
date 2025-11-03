@@ -57,8 +57,7 @@ if uploaded:
         plot_note_log_scale(detect_freq=detected)
     else:
         st.warning("No pitch detected.")
-else:
-    plot_note_log_scale(detect_freq=None)
+
 
 # ---------- Explanations ----------
 st.header("📘 Formulas (short)")
